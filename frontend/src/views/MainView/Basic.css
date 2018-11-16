@@ -1,0 +1,77 @@
+.gifDisplay {
+	display: grid;
+	grid-template-columns: 20% auto 20%;
+	grid-template-rows: 50% auto;
+}
+
+.gifElement {
+	margin: auto;
+	grid-column-start: 2;
+	grid-row-start: 1;
+}
+
+.gifTitle {
+	margin: 10px;
+	grid-column-start: 2;
+	grid-row-start: 2;
+}
+
+.errorMsg {
+	margin: 10px;
+	color: red;
+}
+
+.pdfDownload {
+	grid-column-start: 2;
+	grid-row-start: 3;
+	background-color: pink;
+}
+
+.sendToPrinter {
+	grid-column-start: 2;
+	grid-row-start: 4;
+	background-color: orange;
+}
+
+.pdfButton {
+	grid-column-start: 2;
+	/*grid-row-start: 3;*/
+	background-color: #fcd633;
+	border-radius: 5px;
+	margin: 20px;
+	padding: 20px;
+}
+
+.printButton {
+	grid-column-start: 2;
+	background-color: #fcd633;
+	border-radius: 5px;
+	margin: 20px;
+	padding: 20px;
+}
+
+.nameInput {
+	border: 1px solid black;
+	margin-top: 2em;
+	padding: 5px;
+}
+
+.centerColumn {
+	margin: 10px;
+	grid-column-start: 2;
+}
+
+.pageChange {
+	font-weight: bold;
+	cursor: pointer;
+	margin: 1em;
+}
+
+.loadingBar {
+	margin: 0.5em;
+}
+
+.appBody {
+	display: grid;
+	grid-template-rows: 100% auto;
+}
