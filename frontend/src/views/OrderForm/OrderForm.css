@@ -1,14 +1,4 @@
-.billingInfoForm,
-.shippingInfoForm {
-	margin: 20px;
-}
-.billingInfoForm *,
-.shippingInfoForm * {
-	display: inline-block;
-	text-align: left;
-	margin: 0.2em;
-}
-
-input {
-	border: 1px solid black;
+.checkoutButton {
+	display:flex;
+	color: red;
 }

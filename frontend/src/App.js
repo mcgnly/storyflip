@@ -11,11 +11,11 @@ class App extends Component {
     return (
       <Router>
       <div className="App">
-      <header className="App-header" onClick={() => this.setState({view:'main'})}>
-        <h1 className="App-title">Storyflip</h1>
-        <Link to="/">Go Back to Main Page</Link>
-
-      </header>
+      <Link to="/" className="App-link" >
+        <header className="App-header" >
+          <h1 className="App-title">Storyflip</h1>
+        </header>
+      </Link>
         <Route path="/" exact component={Basic} />
         <Route path="/about/" component={About} />
         <Route path="/order/" component={OrderForm} />

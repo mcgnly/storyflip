@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-import Pdf from "../../services/pdfFactory.js";
-import About from "../About/About.js";
-import OrderForm from "../OrderForm/OrderForm.js";
 import FileUploader from "./FileUploader.js";
 import { convertCanvasToImage, convertToGif } from "../../services/imageUtils.js";
-import { generatePdf } from "./pdfUtils";
-import { 
-  validateNameLength,
-  validateNameContent,
-  validatePdfForUpload } from './validate';
+import { validateNameLength } from './validate';
 import "./Basic.css";
 import { Link } from "react-router-dom";
-import { withRouter } from 'react-router-dom'
+import { generatePdf } from "./pdfUtils";
+import OrderForm from "../OrderForm/OrderForm.js";
+import { postUpload } from '../../services/Checkout';
+import Loader from 'react-loader-spinner';
+
 
 class Basic extends Component {
   constructor() {
@@ -21,7 +18,9 @@ class Basic extends Component {
       gifVideo: "",
       images:[],
       loadingProgress: 0,
-      madeBy: ""
+      madeBy: "",
+      orderId: "",
+      generatingPdf: 0,
     };
   }
 
@@ -31,10 +30,6 @@ class Basic extends Component {
     let name = String(evt.target.value);
     this.setState({ madeBy: name });
   };
-  updateView = view => {
-    // ghetto router
-    this.setState({ view });
-  };
 
   // drop an .mp4 in, add mp4 and gif to state
   onDrop(files) {
@@ -42,12 +37,10 @@ class Basic extends Component {
       files
     });
     this.addGifToState(files);
-    console.log("files", files);
   }
 
   //gets progress from converter out and sends to state here, where it can get turned into the svg progress bar
   updateLoadingBar = loadingProgress => {
-    console.log("loading", loadingProgress);
     this.setState({
       loadingProgress
     });
@@ -79,95 +72,129 @@ class Basic extends Component {
     });
   }
 
+  turnOnSpinner = (pageNr) => {
+    console.log('did the thing', pageNr)
+    this.setState({
+      generatingPdf: pageNr,
+    });
+  }
+
+  generateDataForOrder = () => {
+    const orderId = this.state.madeBy + Date.now();
+    console.log("orderId", orderId);
+    this.setState({
+        orderId,
+      });
+    generatePdf(this.state.images, 'A7', this.state.madeBy, this.turnOnSpinner).then((pdf)=>{
+      postUpload(orderId, pdf);
+    }).then((res)=>{
+      console.log("done", res);
+      this.setState({
+        generatingPdf: 0,
+      });
+    });
+  }
+
+  generateDataForDownload = () => {
+    generatePdf(this.state.images, 'A4', this.state.madeBy, this.turnOnSpinner).then(()=>{
+      this.setState({
+        generatingPdf: 0,
+      });
+      console.log("done");
+    });
+  }
+
   render() {
-    const widthOfProgressBar = 500 * this.state.loadingProgress;
+    const showIntro = !this.state.gifVideo && this.state.loadingProgress === 0;
+    const showLoadingBar = 0 < this.state.loadingProgress && !this.state.gifVideo;
+    const showPaymentButton = this.state.orderId && this.state.generatingPdf === 0;
+    
     return (
       <div>
-          <div>
-            {!this.state.gifVideo ? (
-              <h3 className="description">
-                Convert your instagram story into a flipbook. In case that's
-                something you've always wanted to do.
-              </h3>
-            ) : (
+        <h3 className="description">
+          Convert your instagram story into a flipbook. In case that's
+          something you've always wanted to do.
+        </h3>
+        <section className="appBody">
+
+          {/* before video upload */}
+          {showIntro && (
+            <div>
+              <div className="madeBy">
+                Made By:
+                <input
+                  type="text"
+                  className="nameInput"
+                  onChange={this.updateName}
+                  maxLength="15"
+                />
+                {
+                  validateNameLength(this.state.madeBy) ?
+                  <h3 className="errorMsg">
+                    You have reached the maximum length for the title page!
+                  </h3> :
+                  null
+                }
+              </div>
+              <FileUploader disabled={validateNameLength(this.state.madeBy)} onDrop={this.onDrop.bind(this)} />
+            </div>
+          )}
+
+          {/* during video upload */}
+          {showLoadingBar && (
+            <div className="loadingBar">
+              <Loader type="TailSpin" color="black" height={80} width={80} />
+              <h3>Converting your video to images...</h3>
+            </div>
+          )}
+            
+          {/* after video upload, choose a format */}
+          {this.state.gifVideo && (
+            <div>
               <h3 className="gifTitle">
                 Here's what your flipbook will look like!
               </h3>
-            )}
-            <section className="appBody">
-              {!this.state.gifVideo &&
-                !this.state.loadingProgress > 0 && (
-                  <div>
-                    <div className="madeBy">
-                      Made By:
-                      <input
-                      type="text"
-                      className="nameInput"
-                      onChange={this.updateName}
-                      maxLength="15"
-                      />
-                      {
-                        validateNameLength(this.state.madeBy) ?
-                        <h3 className="errorMsg">
-                        You have reached the maximum length for the title page!
-                        </h3> :
-                        null
-                      }
-                    </div>
-                    <FileUploader disabled= {validateNameLength(this.state.madeBy)} onDrop={this.onDrop.bind(this)} />
-                  </div>
-                )}
-              {this.state.loadingProgress > 0 &&
-                !this.state.gifVideo && (
-                  <div className="loadingBar">
-                    <svg height="10">
-                      <rect
-                        width={widthOfProgressBar * 7 / 10}
-                        height="10"
-                        fill="orange"
-                        fillOpacity="0.5"
-                        strokeOpacity="0.8"
-                      />
-                    </svg>
-                    <h3>Converting...</h3>
-                  </div>
-                )}
-              {this.state.gifVideo && (
-                <div className="gifDisplay">
-                  <img
-                    className="gifElement"
-                    src={this.state.gifVideo}
-                    alt="gif"
-                  />
-                  <div className="centerColumn">
-                    You can either download the PDF, and email it to yourself or
-                    save to Drive or dropbox to print yourself, or order a
-                    professionally printed and bound version for 20 euro.
-                  </div>
-                  <div className="pdfButton" onClick={()=>generatePdf(this.state.images, 'A4', this.state.madeBy)}>
-                    Download PDF (A4)
-                  </div>
-                  <div
-                    className="pdfButton centerColumn"
-                    onClick={() => {
-                      generatePdf(this.state.images, 'A7', this.state.madeBy);
-                      // history.push('/new-location');
-                    }}
-                  >
-                    Order flipbook
-                  </div>
-                </div>
-              )}
-              <Link to="/about/">About this project</Link>
-            </section>
-          </div>
+              <div className="gifDisplay">
+                <img
+                  className="gifElement"
+                  src={this.state.gifVideo}
+                  alt="gif"
+                />
+              </div>
+              <div className="centerColumn">
+                You can either download the PDF, and email it to yourself or
+                save to Drive or dropbox to print yourself, or order a
+                professionally printed and bound version for 20 euro.
+              </div>
+              <div className="pdfButton" onClick={this.generateDataForDownload}>
+                Download PDF (A4)
+              </div>
+              <div className="pdfButton" onClick={this.generateDataForOrder} >
+                Order flipbook (A7)
+              </div>
+            </div>
+          )}
+
+          {/* generate the pdf */}
+          {this.state.generatingPdf > 0 && (
+            <div>
+              <Loader type="TailSpin" color="black" height={80} width={80} />
+              <h3>Converting to the size you chose...</h3>
+            </div>
+          )}
+
+          {/* pay for the book */}
+          {showPaymentButton && (
+            <div>
+              <OrderForm pdf={this.state.pdf} madeBy={this.state.madeBy} orderId={this.state.orderId} />
+            </div>
+          )}
+
+        </section>
+        <Link to="/about/">About this project</Link>
       </div>
     );
   }
 }
 
 export default Basic;
-
-// {this.state.view === "order" && (
-//   <OrderForm changePage={this.updateView} pdf={Pdf.convertToBlob()} name={this.state.madeBy} />
-// )}

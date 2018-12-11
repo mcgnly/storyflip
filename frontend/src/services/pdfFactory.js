@@ -53,6 +53,7 @@ class Pdf {
 	addPageToPDFA7(imgData, pgNumber) {
 		// 1 img per page, A7 105x74.25 mm
 		this.myPdf.addPage();
+		console.log('page number:', pgNumber);
 		this.myPdf.text(pgNumber.toString(), 10, 40);
 		this.myPdf.addImage(imgData, "JPEG", 43, 12, 50, 50);
 		// add a blank page so the image is only on one side!

@@ -6,7 +6,8 @@
   "author": "mcgnly",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "start-new": "cd frontend && npm run build && cd .. && nodemon index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.321.0",

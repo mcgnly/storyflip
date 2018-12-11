@@ -27,8 +27,8 @@ export default ({ onDrop, disabled }) => (
 				will be cropped.
 			</p>
 			<div className="centerColumn">
-                Some rules of the game: nothing illegal, no porn, 
-                I have to look through these things so please don't be gross. 
+                Some rules of the game: nothing illegal, no porn, don't be gross.
+                I make the final call on whether or not something gets printed. 
                 </div>
 		</div>
 	</div>

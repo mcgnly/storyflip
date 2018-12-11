@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import fs from "fs";
 import StripeCheckout from "react-stripe-checkout";
 
 import STRIPE_PUBLISHABLE from "../constants/stripe";
@@ -21,11 +20,11 @@ const errorPayment = data => {
 	alert("Payment or upload Error", data);
 };
 
-const stripePost = (token, amount, description) =>
+const stripePost = (token, amount, orderId) =>
 {
-	console.log('token, amount, description', token, amount, description);
+	console.log('token, amount, orderId', token, amount, orderId);
 	return (axios.post(PAYMENT_SERVER_URL, {
-		description,
+		description: orderId,
 		source: token.id,
 		currency: CURRENCY,
 		amount: fromEuroToCent(amount),
@@ -34,12 +33,12 @@ const stripePost = (token, amount, description) =>
 	);
 }
 
-export const postUpload = (args, pdf) => {
-	
+export const postUpload = (orderId, pdf) => {
+	// const checkedPdf = pdf.type === "application/pdf";
+
 	var fd = new FormData();
 	fd.append("pdf", pdf);
-	fd.append("order_id", args.order_id);
-	fd.append("description", args.description);
+	fd.append("order_id", orderId);
 	console.log("what does my form data look like?", fd);
 	axios({
 		method: "post",
@@ -56,31 +55,30 @@ export const postUpload = (args, pdf) => {
 	);
 };
 
-const onToken = (amount, description, pdf) => token => {
-	const checkedPdf = pdf.type === "application/pdf";
-
-	const args ={
-		description, 
-		order_id: token.created,
-	};
-	// console.log('args', args, 'token', token)
-
-	Promise.all([stripePost(token, amount, description), postUpload(args, checkedPdf&&pdf)])
+const onToken = (amount, orderId) => token => {
+	Promise(stripePost(token, amount, orderId))
 		.then(successPayment)
 		.catch(errorPayment);
 };
 
-const Checkout = ({ name, description, amount, pdf }) => (
-	<StripeCheckout
-		name={name}
-		description={description}
-		amount={fromEuroToCent(amount)}
-		token={onToken(amount, description, pdf)}
-		currency={CURRENCY}
-		stripeKey={STRIPE_PUBLISHABLE}
-		shippingAddress
-		billingAddress
-	/>
+const locationStyle = {
+	display: 'block',
+	margin: '2em',
+};
+
+const Checkout = ({ name, orderId, amount }) => (
+	<div style={locationStyle}>
+		<StripeCheckout
+			name={name}
+			description={orderId}
+			amount={fromEuroToCent(amount)}
+			token={onToken(amount, orderId)}
+			currency={CURRENCY}
+			stripeKey={STRIPE_PUBLISHABLE}
+			shippingAddress
+			billingAddress
+		/>
+	</div>
 );
 
 export default Checkout;

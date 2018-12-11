@@ -14,23 +14,18 @@
 TODO
 SERVER
 - email? 
-- block upload before payment recieved
-- proper CORS access on server
+- check for incoming file type
+- headers restrict
 
-
- 
 CLIENT
-- max filesize upload?
-- restrict name input to char and - only
-- restrict file upload to mp4 only
-- restrict server upload to pdf only
-
+- error message if too short/long upload
+- debug spinner on order button while converting
+- test on build that pdf goes through
 
 DEPLOYMENT
-- change ssh port on dig ocean
-- get ssh back away from pass
 - dockerize the combo repo
 - nginx file in combo repo?
+- find actual proper product
 
 
 

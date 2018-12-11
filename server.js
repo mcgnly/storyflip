@@ -1,19 +1,12 @@
 const cors = require("cors");
 
-const CORS_WHITELIST = require("./instaflipServerConstants/frontend");
-
-const corsOptions = {
-	origin: (origin, callback) =>
-		CORS_WHITELIST.indexOf(origin) !== -1
-			? callback(null, true)
-			: callback(new Error("Not allowed by CORS"))
-};
+var corsOptions = {
+	origin: 'http://localhost',
+	optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 
 const configureServer = app => {
-	// app.use(cors(corsOptions));
-	app.use(cors()); //default options allows all
-
-	
+	app.use(cors(corsOptions));
 };
 
 module.exports = configureServer;

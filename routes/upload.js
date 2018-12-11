@@ -9,7 +9,7 @@ const uploadApi = app => {
     app.post('/save', (req, res) => {
         const fileToUpload = req.file.buffer;
         const {order_id, description} = req.body;
-        fs.writeFile(`customerUploads/${order_id}.pdf`, fileToUpload, (err) => {  
+        fs.writeFile(`customerUploads/customerOrder${order_id}.pdf`, fileToUpload, (err) => {  
             // throws an error, you could also catch it here
             if (err) throw err;
             // success case, the file was saved
