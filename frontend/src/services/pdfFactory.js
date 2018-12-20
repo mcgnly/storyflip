@@ -20,14 +20,15 @@ class Pdf {
 	makeA7pdf(){
 		const options = {
 			orientation: "landscape",
-			format: [74, 105]
+			// format: [74, 105]
+			format: [80, 111]
 		};
 		this.myPdf = new jsPDF(options);// options mean A7 landscape
 	}
 	
 	instantiatePDF(name) {
 		this.myPdf.setFont("courier");
-		this.myPdf.text("Instaflip", 42, 40);
+		this.myPdf.text("Storyflip", 42, 40);
 		this.myPdf.text("by: " + name, 42, 50);
 	}
 	
@@ -42,7 +43,7 @@ class Pdf {
 		const y = 74.25 * (printRow - 1);
 		this.myPdf.rect(x, y, 105, 74.25); //x y is upper left corner, then w, h
 		this.myPdf.text(pgNumber.toString(), x + 10, y + 40);
-		this.myPdf.addImage(imgData, "JPEG", x + 43, y + 12, 50, 50);
+		this.myPdf.addImage(imgData, "JPEG", x + 33, y + 2, 60, 60);
 		if (printRow === 4 && col === 2) {
 			this.printPg++;
 			this.myPdf.addPage();
@@ -54,8 +55,7 @@ class Pdf {
 		// 1 img per page, A7 105x74.25 mm
 		this.myPdf.addPage();
 		console.log('page number:', pgNumber);
-		this.myPdf.text(pgNumber.toString(), 10, 40);
-		this.myPdf.addImage(imgData, "JPEG", 43, 12, 50, 50);
+		this.myPdf.addImage(imgData, "JPEG", 35, 5, 65, 65);
 		// add a blank page so the image is only on one side!
 		this.myPdf.addPage();
 	}

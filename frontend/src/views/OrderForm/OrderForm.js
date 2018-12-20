@@ -4,7 +4,7 @@ import Checkout from "../../services/Checkout";
 import "./OrderForm.css";
 import { Link } from "react-router-dom";
 
-const OrderForm = ({madeBy, pdf}) => (
+const OrderForm = ({madeBy, pdf, orderId, flushState}) => (
   <div>
     <h1>ORDER YOUR FLIPBOOK</h1>
     <p className="aboutText">
@@ -17,6 +17,8 @@ const OrderForm = ({madeBy, pdf}) => (
       description={`Storyflip book for: ${madeBy}`}
       amount={20}
       pdf={pdf}
+      orderId={orderId}
+      flushState={flushState}
     />
     <Link to="/">Go Back to Main Page</Link>
   </div>

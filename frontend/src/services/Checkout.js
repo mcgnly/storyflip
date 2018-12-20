@@ -10,54 +10,61 @@ const CURRENCY = "EUR";
 
 const fromEuroToCent = amount => amount * 100;
 
-const successPayment = data => {
+const successPayment = (res, pdf, flushState, orderId) => {
+	postUpload(orderId, pdf, flushState);
 	// redirect to a success page
-	alert("Payment and upload Successful");
-	// updateView("main");
+	flushState();
+
 };
 
-const errorPayment = data => {
+const errorPayment = ({data}) => {
 	alert("Payment or upload Error", data);
 };
 
 const stripePost = (token, amount, orderId) =>
 {
-	console.log('token, amount, orderId', token, amount, orderId);
-	return (axios.post(PAYMENT_SERVER_URL, {
-		description: orderId,
-		source: token.id,
-		currency: CURRENCY,
-		amount: fromEuroToCent(amount),
-		metadata:{order_id:token.created}
-	})
-	);
+	try {
+		const res = axios.post(
+		PAYMENT_SERVER_URL, {
+			description: orderId,
+			source: token.id,
+			currency: CURRENCY,
+			amount: fromEuroToCent(amount),
+			metadata:{order_id:token.created}
+		});
+		return res;
+	} catch (error) {
+		console.error(error)
+	}
 }
 
-export const postUpload = (orderId, pdf) => {
-	// const checkedPdf = pdf.type === "application/pdf";
-
+export const postUpload = (orderId, pdf, flushState) => {
+	const checkedPdf = pdf.type === "application/pdf";
 	var fd = new FormData();
 	fd.append("pdf", pdf);
 	fd.append("order_id", orderId);
-	console.log("what does my form data look like?", fd);
-	axios({
-		method: "post",
-		url: UPLOAD_SERVER_URL.toString(),
-		data: fd,
-		headers: { "content-type": "multipart/form-data" }
-	}).then(
-		res => {
-			console.log("res", res);
-		},
-		err => {
-			console.log("err", err);
-		}
-	);
+	if (checkedPdf){
+		axios({
+			method: "post",
+			url: UPLOAD_SERVER_URL.toString(),
+			data: fd,
+			headers: { "content-type": "multipart/form-data" }
+		}).then(
+			res => {
+				flushState();
+				alert("Payment and upload Successful");
+			},
+			err => {
+				console.log("err", err);
+		});
+	} else {
+		alert('sorry, this is the wrong kind of data');
+	}
 };
 
-const onToken = (amount, orderId) => token => {
-	Promise(stripePost(token, amount, orderId))
-		.then(successPayment)
+const onToken = (amount, orderId, pdf, flushState) => token => {
+	stripePost(token, amount, orderId)
+		.then((res) => successPayment(res, pdf, flushState, orderId))
 		.catch(errorPayment);
 };
 
@@ -66,13 +73,12 @@ const locationStyle = {
 	margin: '2em',
 };
 
-const Checkout = ({ name, orderId, amount }) => (
+const Checkout = ({ name, orderId, amount, pdf, flushState }) => (
 	<div style={locationStyle}>
 		<StripeCheckout
 			name={name}
-			description={orderId}
 			amount={fromEuroToCent(amount)}
-			token={onToken(amount, orderId)}
+			token={onToken(amount, orderId, pdf, flushState)}
 			currency={CURRENCY}
 			stripeKey={STRIPE_PUBLISHABLE}
 			shippingAddress

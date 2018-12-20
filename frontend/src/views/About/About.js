@@ -15,7 +15,7 @@ export default ({ changePage }) => (
 		</p>
 		<p>
 			If you have questions about how we use or store your data (we don't, and we
-			use Stripe for payment so we never put personal-identifying info 
+			use <a href="https://stripe.com/de/privacy">Stripe</a> for payment so we never put personal-identifying info 
 			on our servers), please just get in touch.
 		</p>
 		<Link to="/">Go Back to Main Page</Link>

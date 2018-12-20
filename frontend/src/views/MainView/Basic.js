@@ -4,24 +4,31 @@ import { convertCanvasToImage, convertToGif } from "../../services/imageUtils.js
 import { validateNameLength } from './validate';
 import "./Basic.css";
 import { Link } from "react-router-dom";
-import { generatePdf } from "./pdfUtils";
-import OrderForm from "../OrderForm/OrderForm.js";
-import { postUpload } from '../../services/Checkout';
 import Loader from 'react-loader-spinner';
+import PdfMade from './PdfMade';
+
+const getInitialState = () => (
+  {
+    files: [],
+    gifVideo: "",
+    images:[],
+    loadingProgress: 0,
+    madeBy: "",
+    orderId: "",
+    generatingPdf: 0,
+    size: "",
+  }
+);
 
 
 class Basic extends Component {
   constructor() {
     super();
-    this.state = {
-      files: [],
-      gifVideo: "",
-      images:[],
-      loadingProgress: 0,
-      madeBy: "",
-      orderId: "",
-      generatingPdf: 0,
-    };
+    this.state = getInitialState();
+  }
+
+  flushState() {
+    this.setState(getInitialState());
   }
 
   //arrow fn so I don't have to bind to 'this'
@@ -72,41 +79,24 @@ class Basic extends Component {
     });
   }
 
-  turnOnSpinner = (pageNr) => {
-    console.log('did the thing', pageNr)
-    this.setState({
-      generatingPdf: pageNr,
-    });
+  turnOnSpinner = () => {
+    return new Promise(
+      (resolve, reject) => {
+        console.log('turning on spinner')
+        this.setState({
+          generatingPdf: 7,
+        });
+        resolve();
+      }
+    );
   }
 
-  generateDataForOrder = () => {
-    const orderId = this.state.madeBy + Date.now();
-    console.log("orderId", orderId);
-    this.setState({
-        orderId,
-      });
-    generatePdf(this.state.images, 'A7', this.state.madeBy, this.turnOnSpinner).then((pdf)=>{
-      postUpload(orderId, pdf);
-    }).then((res)=>{
-      console.log("done", res);
-      this.setState({
-        generatingPdf: 0,
-      });
-    });
-  }
 
-  generateDataForDownload = () => {
-    generatePdf(this.state.images, 'A4', this.state.madeBy, this.turnOnSpinner).then(()=>{
-      this.setState({
-        generatingPdf: 0,
-      });
-      console.log("done");
-    });
-  }
 
   render() {
     const showIntro = !this.state.gifVideo && this.state.loadingProgress === 0;
     const showLoadingBar = 0 < this.state.loadingProgress && !this.state.gifVideo;
+    const showSizeButton = this.state.gifVideo && this.state.generatingPdf === 0;
     const showPaymentButton = this.state.orderId && this.state.generatingPdf === 0;
     
     return (
@@ -161,15 +151,26 @@ class Basic extends Component {
                   alt="gif"
                 />
               </div>
+            </div>
+          )}
+          {showSizeButton && (
+            <div>
               <div className="centerColumn">
                 You can either download the PDF, and email it to yourself or
                 save to Drive or dropbox to print yourself, or order a
                 professionally printed and bound version for 20 euro.
+                It will take some time to convert to your chosen size, be patient!
               </div>
-              <div className="pdfButton" onClick={this.generateDataForDownload}>
+              <div className="pdfButton" onClick={()=>{this.setState({
+                  generatingPdf: 1,
+                  size: 'A4',
+                })}}>
                 Download PDF (A4)
               </div>
-              <div className="pdfButton" onClick={this.generateDataForOrder} >
+              <div className="pdfButton" onClick={()=>{this.setState({
+                generatingPdf: 1,
+                size: 'A7',
+                })}} >
                 Order flipbook (A7)
               </div>
             </div>
@@ -177,17 +178,7 @@ class Basic extends Component {
 
           {/* generate the pdf */}
           {this.state.generatingPdf > 0 && (
-            <div>
-              <Loader type="TailSpin" color="black" height={80} width={80} />
-              <h3>Converting to the size you chose...</h3>
-            </div>
-          )}
-
-          {/* pay for the book */}
-          {showPaymentButton && (
-            <div>
-              <OrderForm pdf={this.state.pdf} madeBy={this.state.madeBy} orderId={this.state.orderId} />
-            </div>
+              <PdfMade images={this.state.images} madeBy={this.state.madeBy} size={this.state.size} flushState={this.flushState}/>
           )}
 
         </section>
