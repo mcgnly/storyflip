@@ -38,7 +38,6 @@ class Pdf {
 		const row = Math.ceil(pgNumber / 2); //1-4
 
 		const printRow = row - 4 * this.printPg;
-		console.log("col", col, "row", row, printRow);
 		const x = 105 * (col - 1);
 		const y = 74.25 * (printRow - 1);
 		this.myPdf.rect(x, y, 105, 74.25); //x y is upper left corner, then w, h
@@ -47,7 +46,6 @@ class Pdf {
 		if (printRow === 4 && col === 2) {
 			this.printPg++;
 			this.myPdf.addPage();
-			console.log("new page", this.printPg);
 		}
 	}
 
@@ -61,7 +59,7 @@ class Pdf {
 	}
 
 	savePDF() {
-		this.myPdf.save("Instaflip.pdf");
+		this.myPdf.save("Storyflip.pdf");
 	}
 
 	convertToBlob() {
