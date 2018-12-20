@@ -11,7 +11,7 @@ export const pdfBySize = function (images, format, madeBy) {
           console.log('in the map', index)
           Pdf.addPageToPDFA4(image, index + 2); // +2 because index is 0 and plus a page for the title card
         });
-        // Pdf.savePDF();
+        Pdf.savePDF();
         resolve();
       } else {
         Pdf.makeA7pdf();

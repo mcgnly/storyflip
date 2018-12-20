@@ -20,7 +20,6 @@ const OrderForm = ({madeBy, pdf, orderId, flushState}) => (
       orderId={orderId}
       flushState={flushState}
     />
-    <Link to="/">Go Back to Main Page</Link>
   </div>
 );
 export default ScriptLoader("https://js.stripe.com/v3/")(OrderForm);

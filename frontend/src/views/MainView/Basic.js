@@ -27,8 +27,9 @@ class Basic extends Component {
     this.state = getInitialState();
   }
 
-  flushState() {
-    this.setState(getInitialState());
+  flushState = () => {
+    const blankState = getInitialState();
+    this.setState(blankState);
   }
 
   //arrow fn so I don't have to bind to 'this'
@@ -182,7 +183,10 @@ class Basic extends Component {
           )}
 
         </section>
-        <Link to="/about/">About this project</Link>
+        <div className='appLinks'>
+          <Link to="/" onClick={this.flushState}>Go Back to Main Page</Link>
+          <Link to="/about/">About this project</Link>
+        </div>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import StripeCheckout from "react-stripe-checkout";
+import { withRouter } from 'react-router-dom'
 
 import STRIPE_PUBLISHABLE from "../constants/stripe";
 import PAYMENT_SERVER_URL from "../constants/server";
@@ -14,11 +15,7 @@ const successPayment = (res, pdf, flushState, orderId) => {
 	postUpload(orderId, pdf, flushState);
 	// redirect to a success page
 	flushState();
-
-};
-
-const errorPayment = ({data}) => {
-	alert("Payment or upload Error", data);
+	alert("We have recieved your order! If you have any questions, please contact storyflip@mcgnly.com");
 };
 
 const stripePost = (token, amount, orderId) =>
@@ -64,8 +61,14 @@ export const postUpload = (orderId, pdf, flushState) => {
 
 const onToken = (amount, orderId, pdf, flushState) => token => {
 	stripePost(token, amount, orderId)
-		.then((res) => successPayment(res, pdf, flushState, orderId))
-		.catch(errorPayment);
+		.then(
+			(res) => {
+				successPayment(res, pdf, flushState, orderId)
+			},
+			(err) => {
+				alert("Payment or upload Error", err);
+			}
+		);
 };
 
 const locationStyle = {

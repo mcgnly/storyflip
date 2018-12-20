@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 import { pdfBySize } from "./pdfUtils";
 import OrderForm from "../OrderForm/OrderForm.js";
-import { postUpload } from '../../services/Checkout';
 
 class PdfMade extends React.Component {
     constructor() {
