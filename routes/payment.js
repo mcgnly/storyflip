@@ -22,7 +22,6 @@ const paymentApi = app => {
     // }
     stripe.charges.create(req.body, postStripeCharge(res));
   });
-
   return app;
 };
 

@@ -18,14 +18,22 @@ SERVER
 - headers restrict
 
 CLIENT
-- error message if too short/long upload
-- debug spinner on order button while converting
-- test on build that pdf goes through
+- after happy path, show success page
 
 DEPLOYMENT
-- dockerize the combo repo
 - nginx file in combo repo?
-- find actual proper product
+
+STEPS FOR DEPLOYMENT
+- make an nginx somehow
+
+- deploy using https://medium.freecodecamp.org/i-built-this-now-what-how-to-deploy-a-react-app-on-a-digitalocean-droplet-662de0fe3f48
 
 
-
+NEXT STEPS
+- add winston for logging
+- bring in docker
+- deploy with fancy docker things
+- add tests
+- add dummy data for easier trying out
+- error message if too short/long upload
+- can I select size based on canvas? does it crop/stretch?
