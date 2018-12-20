@@ -1,8 +1,8 @@
 instaflipServerConstants/*
-frontend/src/constants/*
+client/src/constants/*
 node_modules/*
 .DS_Store
-frontend/node_modules
+client/node_modules
 *.txt
 */build/*
 logs/*

@@ -19,22 +19,23 @@ SERVER
 - downgrade flatmap-stream for security
 
 CLIENT
-- after happy path, show success page
 
 DEPLOYMENT
 - nginx file in combo repo?
 
 STEPS FOR DEPLOYMENT
+- figure out if dev or prod
+- change to not-test stripe code
 - make an nginx somehow
-
 - deploy using https://medium.freecodecamp.org/i-built-this-now-what-how-to-deploy-a-react-app-on-a-digitalocean-droplet-662de0fe3f48
 
 
 NEXT STEPS
-- add winston for logging
+- make logs meaningful
 - bring in docker
 - deploy with fancy docker things
 - add tests
-- add dummy data for easier trying out
+- add dummy data for testing shortcuts
 - error message if too short/long upload
 - can I select size based on canvas? does it crop/stretch?
+- make a better success page

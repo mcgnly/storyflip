@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "server": "nodemon index.js",
-    "start-client": "cd frontend && npm run start",
-    "start-both": "nodemon index.js & cd frontend && ttab npm run start",
-    "start-prod": "cd frontend && npm run build && cd .. && nodemon index.js"
+    "start-client": "cd client && npm run start",
+    "start-both": "nodemon index.js & cd client && ttab npm run start",
+    "start-prod": "cd client && npm run build && cd .. && nodemon index.js"
   },
   "dependencies": {
     "app-root-path": "^2.1.0",
