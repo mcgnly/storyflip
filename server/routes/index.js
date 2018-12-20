@@ -1,6 +1,6 @@
 const paymentApi = require("./payment");
 const uploadApi = require("./upload");
-const frontend = require("./client");
+const frontend = require("./frontend");
 
 const configureRoutes = app => {
 	frontend(app);

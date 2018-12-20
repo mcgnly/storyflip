@@ -6,10 +6,10 @@
   "author": "mcgnly",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon index.js",
-    "start-client": "cd client && npm run start",
-    "start-both": "nodemon index.js & cd client && ttab npm run start",
-    "start-prod": "cd client && npm run build && cd .. && nodemon index.js"
+    "server": "cd server && nodemon index.js",
+    "client": "cd client && npm run start",
+    "start-both": "cd server && nodemon index.js & cd client && ttab npm run start",
+    "start-prod": "cd client && npm run build && cd .. && cd server && nodemon index.js"
   },
   "dependencies": {
     "app-root-path": "^2.1.0",

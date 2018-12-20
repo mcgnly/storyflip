@@ -1,9 +1,9 @@
-instaflipServerConstants/*
+*/instaflipServerConstants/*
 client/src/constants/*
 node_modules/*
 .DS_Store
 client/node_modules
 *.txt
 */build/*
-logs/*
-customerUploads/*
+*/logs/*
+*/customerUploads/*
