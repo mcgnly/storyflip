@@ -7,7 +7,7 @@ const uploadApi = app => {
     app.use(multer({ storage: storage }).single('pdf'));
     
     app.post('/save', (req, res) => {
-        console.log('req', req.file)
+        req.setTimeout(0) // no timeout
         const fileToUpload = req.file.buffer;
         const {order_id, description} = req.body;
         fs.writeFile(`customerUploads/${order_id}.pdf`, fileToUpload, (err) => {  

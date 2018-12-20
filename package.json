@@ -6,7 +6,9 @@
   "author": "mcgnly",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js & cd frontend && ttab npm run start",
+    "server": "nodemon index.js",
+    "start-client": "cd frontend && npm run start",
+    "start-both": "nodemon index.js & cd frontend && ttab npm run start",
     "start-prod": "cd frontend && npm run build && cd .. && nodemon index.js"
   },
   "dependencies": {

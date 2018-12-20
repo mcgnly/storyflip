@@ -16,6 +16,7 @@ SERVER
 - email? 
 - check for incoming file type
 - headers restrict
+- downgrade flatmap-stream for security
 
 CLIENT
 - after happy path, show success page
