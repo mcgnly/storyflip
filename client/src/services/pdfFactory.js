@@ -1,4 +1,4 @@
-import jsPDF from "jspdf";
+import jsPDF from "jspdf/dist/jspdf.debug.js";
 
 class Pdf {
 	constructor() {
@@ -52,7 +52,6 @@ class Pdf {
 	addPageToPDFA7(imgData, pgNumber) {
 		// 1 img per page, A7 105x74.25 mm
 		this.myPdf.addPage();
-		console.log('page number:', pgNumber);
 		this.myPdf.addImage(imgData, "JPEG", 35, 5, 65, 65);
 		// add a blank page so the image is only on one side!
 		this.myPdf.addPage();
