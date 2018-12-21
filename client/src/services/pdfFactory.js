@@ -14,14 +14,15 @@ class Pdf {
 	}
 	
 	makeA4pdf(){
-		this.myPdf = new jsPDF();// no options mean portrait A4
+		this.myPdf = new jsPDF({compressPdf: true});// no options mean portrait A4
 	}
 	
 	makeA7pdf(){
 		const options = {
 			orientation: "landscape",
 			// format: [74, 105]
-			format: [80, 111]
+			format: [80, 111],
+			compressPdf: true,
 		};
 		this.myPdf = new jsPDF(options);// options mean A7 landscape
 	}

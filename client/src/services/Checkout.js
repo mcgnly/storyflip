@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import StripeCheckout from "react-stripe-checkout";
-import { withRouter } from 'react-router-dom'
 
 import STRIPE_PUBLISHABLE from "../constants/stripe";
 import PAYMENT_SERVER_URL from "../constants/server";
@@ -14,7 +13,7 @@ const fromEuroToCent = amount => amount * 100;
 const successPayment = (res, pdf, flushState, orderId) => {
 	postUpload(orderId, pdf, flushState);
 	// redirect to a success page
-	flushState();
+	// flushState();
 	alert("We have recieved your order! If you have any questions, please contact storyflip@mcgnly.com");
 };
 
