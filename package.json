@@ -9,7 +9,8 @@
     "server": "NODE_ENV=dev nodemon server/index.js",
     "client": "NODE_ENV=dev cd client && npm run start",
     "start-dev": "NODE_ENV=dev nodemon server/index.js & cd client && ttab npm run start",
-    "start-prod": "NODE_ENV=production cd client && npm run build && cd .. && nodemon server/index.js"
+    "prepare-prod": "cd client && npm run build",
+    "start": "NODE_ENV=production node server/index.js"
   },
   "dependencies": {
     "app-root-path": "^2.1.0",
