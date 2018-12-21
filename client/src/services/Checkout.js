@@ -14,6 +14,7 @@ const successPayment = (res, pdf, flushState, orderId) => {
 	postUpload(orderId, pdf, flushState);
 	// redirect to a success page
 	// flushState();
+	console.log('pdf', pdf)
 	alert("We have recieved your order! If you have any questions, please contact storyflip@mcgnly.com");
 };
 
