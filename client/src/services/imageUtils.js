@@ -10,7 +10,7 @@ export const convertCanvasToImage = (imagedata, index) => {
     canvas.height = imagedata.height;
     ctx.putImageData(imagedata, 0, 0);
     var image = new Image();
-    image.src = canvas.toDataURL();
+    image.src = canvas.toDataURL('image/jpeg', 0.7);
     resolve(image);
   });
 };

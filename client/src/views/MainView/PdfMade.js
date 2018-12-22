@@ -38,7 +38,8 @@ class PdfMade extends React.Component {
     
     generateDataForDownload = () => {
         const {images, size, madeBy} = this.props;
-        pdfBySize(images, size, madeBy).then(()=>{
+        pdfBySize(images, size, madeBy).then((pdf)=>{
+            console.log("pdf", pdf, pdf.size)
             this.setState({
                 spinnerOn: false,
             });

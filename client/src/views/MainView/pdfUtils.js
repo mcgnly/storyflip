@@ -11,8 +11,9 @@ export const pdfBySize = function (images, format, madeBy) {
           Pdf.addPageToPDFA4(image, index + 2); // +2 because index is 0 and plus a page for the title card
         });
         alert("your PDF is done, it should be downloaded to your device now");
+
         Pdf.savePDF();
-        resolve();
+        resolve(Pdf.convertToBlob());
       } else {
         Pdf.makeA7pdf();
         startPdf(madeBy);
