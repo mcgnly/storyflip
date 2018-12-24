@@ -1,5 +1,6 @@
 var appRoot = require('app-root-path');
-var winston = require('winston');
+const { createLogger, format, transports } = require('winston');
+
 
 // define the custom settings for each transport (file, console)
 var options = {
@@ -10,21 +11,29 @@ var options = {
     json: true,
     maxsize: 5242880, // 5MB
     maxFiles: 5,
-    colorize: false,
+    colorize: true,
   },
   console: {
     level: 'debug',
     handleExceptions: true,
-    json: false,
+    json: true,
     colorize: true,
   },
 };
 
+const ignorePrivate = format((info, opts) => {
+  return !info.message.includes('GET /static') && info;
+});
+
 // instantiate a new Winston Logger with the settings defined above
-var logger = winston.createLogger({
+var logger = createLogger({
+  format: format.combine(
+    ignorePrivate(),
+    format.json()
+  ),
   transports: [
-    new winston.transports.File(options.file),
-    new winston.transports.Console(options.console)
+    new transports.File(options.file),
+    new transports.Console(options.console)
   ],
   exitOnError: false, // do not exit on handled exceptions
 });

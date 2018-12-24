@@ -1,6 +1,6 @@
 const express = require("express");
 
-const SERVER_CONFIGS = require("./instaflipServerConstants/server");
+const SERVER_CONFIGS = require("./constants/server");
 
 const configureServer = require("./server");
 const configureRoutes = require("./routes");

@@ -1,4 +1,4 @@
-const stripe = require("../instaflipServerConstants/stripe");
+const stripe = require("../constants/stripe");
 const bodyParser = require("body-parser");
 
 const postStripeCharge = res => (stripeErr, stripeRes) => {
@@ -17,7 +17,7 @@ const paymentApi = app => {
     //   source: 'tok_123456789',
     //   currency: 'EUR',
     //   amount: 2000,
-    //   description: 'instaflip book for: katie',
+    //   description: 'storyflip book for: katie',
     //   metadata: { order_id: 123456789 } 
     // }
     stripe.charges.create(req.body, postStripeCharge(res));

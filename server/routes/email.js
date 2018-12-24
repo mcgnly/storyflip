@@ -3,7 +3,7 @@ var mailgun = require('mailgun-js')({apiKey: api_key, domain: DOMAIN});
 export default () => {
     const email = {
       from: "Excited User <me@samples.mailgun.org>",
-      to: "instaflip@mcgnly.com",
+      to: "storyflip@mcgnly.com",
       subject: "Hello",
       text: `go check the droplet, someone uploaded a flipbook`,
     };
