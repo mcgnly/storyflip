@@ -99,7 +99,7 @@ class Basic extends Component {
     const showLoadingBar = 0 < this.state.loadingProgress && !this.state.gifVideo;
     const showSizeButton = this.state.gifVideo && this.state.generatingPdf === 0;
     const showPaymentButton = this.state.orderId && this.state.generatingPdf === 0;
-    
+    console.log("window", window)
     return (
       <div>
         <h3 className="description">
@@ -107,7 +107,14 @@ class Basic extends Component {
           something you've always wanted to do.
         </h3>
         <section className="appBody">
-
+        {/* <ReCaptcha
+            ref={(el) => {this.captchaDemo = el;}}
+            size="invisible"
+            render="explicit"
+            sitekey="your_site_key"
+            onloadCallback={this.onLoadRecaptcha}
+            verifyCallback={this.verifyCallback}
+        /> */}
           {/* before video upload */}
           {showIntro && (
             <div>

@@ -1,8 +1,8 @@
 {
-  "name": "instaflip",
+  "name": "storyflip-client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mcgnly.github.io",
+  "homepage": "http://www.mcgnly.com",
   "dependencies": {
     "attr-accept": "^1.1.3",
     "axios": "^0.18.0",

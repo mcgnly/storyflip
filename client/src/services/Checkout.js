@@ -5,6 +5,7 @@ import StripeCheckout from "react-stripe-checkout";
 import STRIPE_PUBLISHABLE from "../constants/stripe";
 import PAYMENT_SERVER_URL from "../constants/server";
 import UPLOAD_SERVER_URL from "../constants/upload";
+import DOWNLOAD_NOTICE_URL from "../constants/download";
 
 const CURRENCY = "EUR";
 
@@ -28,6 +29,19 @@ const stripePost = (token, amount, orderId) =>
 			currency: CURRENCY,
 			amount: fromEuroToCent(amount),
 			metadata:{order_id:token.created}
+		});
+		return res;
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+export const downloadNotificationPost = () =>
+{
+	try {
+		const res = axios.post(
+		DOWNLOAD_NOTICE_URL, {
+			description: 'someone downloaded a free version',
 		});
 		return res;
 	} catch (error) {

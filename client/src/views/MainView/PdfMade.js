@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Loader from 'react-loader-spinner';
 import { pdfBySize } from "./pdfUtils";
 import OrderForm from "../OrderForm/OrderForm.js";
+import { downloadNotificationPost } from '../../services/Checkout';
 
 class PdfMade extends React.Component {
     constructor() {
@@ -39,11 +40,11 @@ class PdfMade extends React.Component {
     generateDataForDownload = () => {
         const {images, size, madeBy} = this.props;
         pdfBySize(images, size, madeBy).then((pdf)=>{
-            console.log("pdf", pdf, pdf.size)
             this.setState({
                 spinnerOn: false,
             });
         });
+        downloadNotificationPost();
     }
     
     render() {
