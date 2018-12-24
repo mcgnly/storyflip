@@ -22,7 +22,7 @@ var options = {
 };
 
 const ignorePrivate = format((info, opts) => {
-  const shouldSaveToLog = true;
+  var shouldSaveToLog = true;
   const logsToIgnore = [
     'GET /favicon',
     'GET /static',
