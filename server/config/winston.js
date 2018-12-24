@@ -22,7 +22,17 @@ var options = {
 };
 
 const ignorePrivate = format((info, opts) => {
-  return !info.message.includes('GET /static') && info;
+  const shouldSaveToLog = true;
+  const logsToIgnore = [
+    'GET /favicon',
+    'GET /static',
+  ];
+  logsToIgnore.forEach((item)=>{
+    if (info.message.includes(item)) {
+      shouldSaveToLog = false;
+    }
+  });
+  return shouldSaveToLog && info;
 });
 
 // instantiate a new Winston Logger with the settings defined above
