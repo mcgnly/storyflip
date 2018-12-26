@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { loadReCaptcha } from 'react-recaptcha-google'
 import "./App.css";
 import Basic from "./views/MainView/Basic";
 import About from "./views/About/About";
@@ -7,6 +8,9 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 class App extends Component {
+  componentDidMount() {
+    loadReCaptcha();
+  }
   render() {
     return (
       <Router>

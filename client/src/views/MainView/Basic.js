@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { ReCaptcha } from 'react-recaptcha-google'
+
 import FileUploader from "./FileUploader.js";
 import { convertCanvasToImage, convertToGif } from "../../services/imageUtils.js";
 import { validateNameLength } from './validate';
@@ -17,6 +19,7 @@ const getInitialState = () => (
     orderId: "",
     generatingPdf: 0,
     size: "",
+    captchaOk: false,
   }
 );
 
@@ -25,6 +28,17 @@ class Basic extends Component {
   constructor() {
     super();
     this.state = getInitialState();
+  }
+
+  onLoadRecaptcha = () => {
+    if (this.captchaDemo) {
+        this.captchaDemo.reset();
+        this.captchaDemo.execute();
+    }
+  }
+
+  verifyCallback = () => {
+    this.setState({captchaOk: true});
   }
 
   flushState = () => {
@@ -99,22 +113,21 @@ class Basic extends Component {
     const showLoadingBar = 0 < this.state.loadingProgress && !this.state.gifVideo;
     const showSizeButton = this.state.gifVideo && this.state.generatingPdf === 0;
     const showPaymentButton = this.state.orderId && this.state.generatingPdf === 0;
-    console.log("window", window)
     return (
       <div>
         <h3 className="description">
-          Convert your instagram story into a flipbook. In case that's
-          something you've always wanted to do.
+          Convert your instagram story (or any short .mp4 video, really) into a flipbook. 
+          In case that's something you've always wanted to do.
         </h3>
         <section className="appBody">
-        {/* <ReCaptcha
+        <ReCaptcha
             ref={(el) => {this.captchaDemo = el;}}
             size="invisible"
             render="explicit"
-            sitekey="your_site_key"
+            sitekey="6Lcnm4QUAAAAAEFuGiEpPcAWNVq3TXmp_QHfm0c9"
             onloadCallback={this.onLoadRecaptcha}
             verifyCallback={this.verifyCallback}
-        /> */}
+        />
           {/* before video upload */}
           {showIntro && (
             <div>
@@ -134,7 +147,7 @@ class Basic extends Component {
                   null
                 }
               </div>
-              <FileUploader disabled={validateNameLength(this.state.madeBy)} onDrop={this.onDrop.bind(this)} />
+              <FileUploader disabled={validateNameLength(this.state.madeBy) && this.state.captchaOk} onDrop={this.onDrop.bind(this)} />
             </div>
           )}
 
