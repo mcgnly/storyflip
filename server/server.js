@@ -11,7 +11,7 @@ var corsOptions = {
 
 const configureServer = app => {
 	app.use(cors(corsOptions));
-	app.use(morgan(':method :url :status :referrer :res[content-length] - :response-time ms', { stream: winston.stream }));
+	app.use(morgan('[:date[web]] :method :url :status :referrer :res[content-length] - :response-time ms', { stream: winston.stream }));
 
 };
 
