@@ -6,6 +6,10 @@ export default ({ changePage }) => (
 	<div>
 		<h1>ABOUT</h1>
 		<p className="aboutText">
+			About the professional printing service: 
+			For obvious reasons, nothing illegal, no porn, the usual. If it looks shady to the professional printers, they won't print it.
+			For the print-yourself version, this all works on the browser so you're the only one who sees that. 
+
 			This project was done for fun by Katie McGinley, and was thought up
 			over ramen as "the most hipster thing we could think of". If you
 			would like to get in touch, please email{" "}

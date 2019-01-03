@@ -156,7 +156,8 @@ class Basic extends Component {
               <div className="centerColumn">
                 You can either download the PDF, and email it to yourself or
                 save to Drive or dropbox to print yourself, or order a
-                professionally printed and bound version for 20 euro.
+                professionally printed and bound version for 20 euro. Free shipping worldwide.
+
                 It will take some time to convert to your chosen size, be patient!
               </div>
               <div className="pdfButton" onClick={()=>{this.setState({

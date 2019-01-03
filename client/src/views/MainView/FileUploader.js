@@ -11,8 +11,8 @@ export default ({ onDrop, disabled }) => (
 			onDrop={onDrop} 
 			accept=".mp4" 
 			className="dropButton"
-			minSize={5000000}
-			maxSize={25000000}
+			// minSize={5000000}
+			// maxSize={25000000}
 		>
 			<p>UPLOAD VIDEO</p>
 		</Dropzone>
@@ -26,10 +26,6 @@ export default ({ onDrop, disabled }) => (
 				uploads shorter than this will be repeated, longer than this
 				will be cropped.
 			</p>
-			<div className="centerColumn">
-                Some rules of the game: nothing illegal, no porn, don't be gross.
-                I make the final call on whether or not something gets printed. 
-                </div>
 		</div>
 	</div>
 );
