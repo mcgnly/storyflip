@@ -1,5 +1,6 @@
 const multer = require ('multer');
 const fs = require('fs');
+const {sendNotificationEmail} = require('./email');
 
 var storage = multer.memoryStorage();
 
@@ -15,6 +16,7 @@ const uploadApi = app => {
             if (err) throw err;
             // success case, the file was saved
             console.log('pdf saved!');
+            sendNotificationEmail(order_id).catch(console.error);
             res.status(200).send({ success: 'file saved successfully!' });
         });
     });
