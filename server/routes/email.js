@@ -23,7 +23,7 @@ async function sendNotificationEmail(orderId){
     text: `Go check for order ${orderId}`, // plain text body
   });
 }
-async function sendNotificationEmail(){
+async function sendFreeDownloadEmail(){
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"storyflip" <katie@storyflip.me>', // sender address
